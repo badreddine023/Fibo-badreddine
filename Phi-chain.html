@@ -1,0 +1,200 @@
+<!-- ENHANCED VERSION - Add to your HTML -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Φ-Chain • Fibonacci Universe • badreddine</title>
+  <style>
+    body { 
+      background: #0a0a0a; 
+      color: #b9a369; 
+      font-family: 'Courier New', monospace; 
+      text-align: center; 
+      padding: 5vh 5%;
+      background-image: 
+        radial-gradient(circle at 20% 30%, #1a1a1a 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, #0f0f0f 0%, transparent 50%);
+    }
+    
+    .golden-spiral {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 100vmax;
+      height: 100vmax;
+      transform: translate(-50%, -50%);
+      background: conic-gradient(from 0deg, 
+        transparent 0deg, 
+        rgba(185, 163, 105, 0.1) 137.5deg,  /* ϕ × 85° */
+        transparent 222.5deg,               /* 360°/ϕ */
+        transparent 360deg);
+      z-index: -1;
+      opacity: 0.3;
+      animation: rotate 60s linear infinite;
+    }
+    
+    @keyframes rotate {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    
+    h1 { 
+      font-size: 4em; 
+      margin: 0.5em 0;
+      text-shadow: 0 0 20px rgba(185, 163, 105, 0.5);
+      letter-spacing: 3px;
+    }
+    
+    h2 { 
+      color: #8b7355; 
+      font-weight: 300;
+      margin-bottom: 3em;
+    }
+    
+    .phi-symbol {
+      font-size: 2em;
+      color: #d4af37;
+      margin: 0 10px;
+    }
+    
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2em;
+      margin: 3em auto;
+      max-width: 1200px;
+    }
+    
+    .card {
+      background: rgba(20, 20, 20, 0.8);
+      border: 1px solid rgba(185, 163, 105, 0.3);
+      border-radius: 10px;
+      padding: 2em;
+      text-align: left;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(185, 163, 105, 0.6);
+    }
+    
+    .card h3 {
+      color: #d4af37;
+      border-bottom: 1px solid rgba(185, 163, 105, 0.2);
+      padding-bottom: 0.5em;
+      margin-top: 0;
+    }
+    
+    .fibonacci-display {
+      font-size: 1.5em;
+      color: #b9a369;
+      margin: 1em 0;
+      font-weight: bold;
+    }
+    
+    .phi-value {
+      font-family: 'Times New Roman', serif;
+      font-style: italic;
+      color: #ffd700;
+    }
+    
+    #block, #next {
+      color: #ffd700;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    
+    .validator-list {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .validator-list li {
+      padding: 0.5em;
+      border-bottom: 1px solid rgba(185, 163, 105, 0.1);
+      display: flex;
+      justify-content: space-between;
+    }
+    
+    .validator-power {
+      color: #8b7355;
+    }
+    
+    .progress-bar {
+      height: 5px;
+      background: rgba(185, 163, 105, 0.2);
+      border-radius: 3px;
+      margin: 1em 0;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #b9a369, #ffd700);
+      width: 61.8%; /* ϕ⁻¹ */
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+    
+    footer {
+      margin-top: 4em;
+      color: #8b7355;
+      font-size: 0.9em;
+    }
+    
+    .fib-sequence {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1em;
+      margin: 2em 0;
+    }
+    
+    .fib-number {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(185, 163, 105, 0.1);
+      border-radius: 50%;
+      border: 1px solid rgba(185, 163, 105, 0.3);
+      transition: all 0.3s;
+    }
+    
+    .fib-number:hover {
+      background: rgba(185, 163, 105, 0.2);
+      transform: scale(1.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="golden-spiral"></div>
+  
+  <h1>Φ<span class="phi-symbol">(ϕ)</span>Chain</h1>
+  <h2>Author: badreddine • Genesis Time: <span class="phi-value" id="genesisTime"></span></h2>
+  
+  <div class="fib-sequence">
+    <div class="fib-number">0</div>
+    <div class="fib-number">1</div>
+    <div class="fib-number">1</div>
+    <div class="fib-number">2</div>
+    <div class="fib-number">3</div>
+    <div class="fib-number">5</div>
+    <div class="fib-number">8</div>
+    <div class="fib-number">13</div>
+    <div class="fib-number">21</div>
+    <div class="fib-number">34</div>
+  </div>
+  
+  <div class="dashboard">
+    <!-- Current Block Card -->
+    <div class="card">
+      <h3>Current Fibonacci Block</h3>
+      <div class="fibonacci-display">F<span id="blockIndex">_0</span> = <span id="block">
